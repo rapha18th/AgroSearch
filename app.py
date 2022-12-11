@@ -145,11 +145,11 @@ def main():
                 continue
 
             st.subheader(
-                GoogleTranslator(source ='en', target=sc).translate(f.iloc[0].title))
+                GoogleTranslator(source ='auto', target=sc).translate(f.iloc[0].title))
             st.write(f.iloc[0].url)
             st.write(f.iloc[0].publication_year)
 
-            st.markdown(GoogleTranslator(source ='en', target=sc).translate(f.iloc[0].abstract))
+            st.markdown(GoogleTranslator(source ='auto', target=sc).translate(f.iloc[0].abstract))
 
 
 if __name__ == "__main__":
