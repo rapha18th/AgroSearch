@@ -10,14 +10,13 @@ import os
 import requests
 from rich import print
 from googletrans import Translator
-
+from deep_translator import GoogleTranslator
 #engine = create_engine('postgresql://rairo@pubag:pubag1036!@pubag.postgres.database.azure.com:5432/postgres')
 
 
 #conn = engine.connect()
 
 translator = Translator()
-
 
 
 def vector_search(query, model, index, num_results=10):
@@ -70,13 +69,15 @@ def detect_language(text):
     return language_text
 
 
+
 def translate(text, src, dest):
 
     # Get translation
     translation = translator.translate(text,src,dest)
-    translation_text = translation.text
+
     # Return the translation
-    return translation_text
+    return translation.text
+
 
 
 
@@ -86,14 +87,17 @@ def main():
         # Get Configuration Settings
 
 
-        text = 'hello!'
+        text = 'hello world!'
         print(text)
         print('Detected language of "' + text + '":',
               detect_language(text))
         print("Type:", type(detect_language(text)))
-        dest = 'es'
+        dest = 'fr'
         print(dest + ":", translate(text, 'en',
               dest))
+        tr = GoogleTranslator(source='auto', target=dest).translate(text)
+
+        print( "Two T:", tr)
     except Exception as ex:
         print("exception:", ex)
 
@@ -118,10 +122,11 @@ def main():
     if user_input:
         # Get paper IDs
 
-        sc = detect_language(text)
+        sc = detect_language(user_input)
         st.write(sc)
-        user_input = translate(user_input, sc,'en')
-        D, I = vector_search([user_input], model, faiss_index, num_results)
+        text = translate(user_input, sc,'en')
+        print(text)
+        D, I = vector_search([text], model, faiss_index, num_results)
         # Slice data on year
         frame = data[
             (data.publication_year >= filter_year[0])
@@ -140,13 +145,11 @@ def main():
                 continue
 
             st.subheader(
-                translate(f.iloc[0].title, 'en',
-                          sc))
+                GoogleTranslator(source ='en', target=sc).translate(f.iloc[0].title))
             st.write(f.iloc[0].url)
             st.write(f.iloc[0].publication_year)
 
-            st.markdown(translate(f.iloc[0].abstract, 'en',
-                                  sc))
+            st.markdown(GoogleTranslator(source ='en', target=sc).translate(f.iloc[0].abstract))
 
 
 if __name__ == "__main__":
