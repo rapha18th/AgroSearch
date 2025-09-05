@@ -8,6 +8,7 @@
 
 ### `streamlit run app.py`
 
+```
 graph TD
     %% --- Client Side (Browser) ---
     subgraph "Client Side (Browser)"
@@ -54,3 +55,4 @@ graph TD
     style D6 fill:#000,stroke:#fff,stroke-width:2px,color:#fff
     style D1 fill:#FFA000,stroke:#fff,stroke-width:2px,color:#fff
     style D2 fill:#F57C00,stroke:#fff,stroke-width:2px,color:#fff
+```
